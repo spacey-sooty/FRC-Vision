@@ -153,3 +153,7 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
+
+# editor garbage for non vim/neovim users
+.vscode
+.idea
