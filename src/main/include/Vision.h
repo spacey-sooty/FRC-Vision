@@ -7,11 +7,20 @@
 #include <photonlib/RobotPoseEstimator.h>
 
 #include <frc/geometry/Transform3d.h>
+#include <frc/geometry/Pose3d.h>
 
 #include <units/time.h>
 
+#include <frc/smartdashboard/Smartdashboard.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
+#include <networktables/NetworkTableEntry.h>
+#include <networktables/NetworkTableValue.h>
+
+#include <math.h>
 #include <memory>
 #include <iostream>
+#include <vector>
 
 std::shared_ptr<frc::AprilTagFieldLayout> Get2023Layout();
 
@@ -32,8 +41,17 @@ class Vision {
   void OnStart();
   void OnUpdate(units::second_t dt);
 
+  std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("Vision");
+
+  photonlib::PhotonPipelineResult GetLatestResult();
+  std::span<const photonlib::PhotonTrackedTarget> GetTargets();
+  photonlib::PhotonTrackedTarget GetBestTarget();
+  frc::Pose3d GetPose();
+
  protected:
 
  private:
   VisionConfig *_config;
+  std::vector<std::pair<std::shared_ptr<photonlib::PhotonCamera>, frc::Transform3d>> cameras = { std::make_pair(_config->camera, _config->robotToCamera) };
+  photonlib::RobotPoseEstimator _estimator = photonlib::RobotPoseEstimator{ Get2023Layout(), photonlib::CLOSEST_TO_REFERENCE_POSE, cameras };
 };

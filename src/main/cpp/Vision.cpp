@@ -17,6 +17,22 @@ VisionConfig *Vision::GetConfig() {
   return _config;
 }
 
+PhotonPipelineResult Vision::GetLatestResult() {
+  return _config->camera->GetLatestResult();
+}
+
+span<const PhotonTrackedTarget> Vision::GetTargets() {
+  return GetLatestResult().GetTargets();
+}
+
+PhotonTrackedTarget Vision::GetBestTarget() {
+  return GetLatestResult().GetBestTarget();
+}
+
+frc::Pose3d Vision::GetPose() {
+  return _estimator.Update().first;
+}
+
 void Vision::OnStart() {
   cout << "Starting Vision" << endl;
 }
