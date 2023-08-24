@@ -45,6 +45,7 @@ class Vision {
   std::span<const photonlib::PhotonTrackedTarget> GetTargets();
   photonlib::PhotonTrackedTarget GetBestTarget();
   frc::Pose3d GetPose();
+  frc::Transform3d GetPath(photonlib::PhotonTrackedTarget target);
 
  protected:
 

@@ -33,6 +33,12 @@ Pose3d Vision::GetPose() {
   return _estimator.Update().first;
 }
 
+Transform3d Vision::GetPath(PhotonTrackedTarget target) {
+  Transform3d path = target.GetBestCameraToTarget();
+  Transform3d offset = _config->robotToCamera;
+  return Transform3d{Translation3d{(path.X() - offset.X()), (path.Y() - offset.Y()), (path.Z() - offset.Z())}, path.Rotation()};
+}
+
 void Vision::OnStart() {
   cout << "Starting Vision" << endl;
 }
