@@ -41,8 +41,6 @@ class Vision {
   void OnStart();
   void OnUpdate(units::second_t dt);
 
-  std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("Vision");
-
   photonlib::PhotonPipelineResult GetLatestResult();
   std::span<const photonlib::PhotonTrackedTarget> GetTargets();
   photonlib::PhotonTrackedTarget GetBestTarget();

@@ -29,7 +29,7 @@ PhotonTrackedTarget Vision::GetBestTarget() {
   return GetLatestResult().GetBestTarget();
 }
 
-frc::Pose3d Vision::GetPose() {
+Pose3d Vision::GetPose() {
   return _estimator.Update().first;
 }
 
@@ -37,5 +37,12 @@ void Vision::OnStart() {
   cout << "Starting Vision" << endl;
 }
 
-// TODO periodic logging
-void Vision::OnUpdate(second_t dt) {}
+void Vision::OnUpdate(second_t dt) {
+  Pose3d pose = GetPose();
+  frc::SmartDashboard::PutNumber("X", pose.X().value());
+  frc::SmartDashboard::PutNumber("Y", pose.Y().value());
+  frc::SmartDashboard::PutNumber("Z", pose.Z().value());
+  frc::SmartDashboard::PutNumber("Roll", pose.Rotation().X().value());
+  frc::SmartDashboard::PutNumber("Pitch", pose.Rotation().Y().value());
+  frc::SmartDashboard::PutNumber("Yaw", pose.Rotation().Z().value());
+}
