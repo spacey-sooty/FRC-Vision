@@ -1,3 +1,2 @@
 # FRC-Vision
-
-Some FRC Vision code in C++ using Photonvision!
+FRC example Photonvision CPP code. This code has periodic logging, position tracking and simple trajectory plotting. 
