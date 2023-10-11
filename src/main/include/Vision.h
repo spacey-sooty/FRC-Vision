@@ -1,23 +1,22 @@
 #pragma once
 
-#include <frc/apriltag/AprilTagFields.h>
-#include <frc/apriltag/AprilTagFieldLayout.h>
-
 #include <photonlib/PhotonCamera.h>
 #include <photonlib/RobotPoseEstimator.h>
 
 #include <frc/geometry/Transform3d.h>
 #include <frc/geometry/Pose3d.h>
+#include <frc/apriltag/AprilTagFields.h>
+#include <frc/apriltag/AprilTagFieldLayout.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include <units/time.h>
 
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 #include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableValue.h>
 
-#include <math.h>
+#include <cmath>
 #include <memory>
 #include <iostream>
 #include <vector>
