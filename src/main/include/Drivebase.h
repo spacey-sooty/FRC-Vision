@@ -2,6 +2,7 @@
 
 #include "Vision.h"
 
+#include <frc2/command/PIDCommand.h>
 #include <networktables/NetworkTableInstance.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/DoubleTopic.h>
@@ -24,12 +25,16 @@ struct DrivebaseConfig {
   TalonSRX &Right1;
   TalonSRX &Right2;
   TalonSRX &Right3;
+
+  frc2::PIDController _velocityPID;
+  frc2::PIDController _posePID;
 };
 
 enum DrivebaseState {
   kIdle,
   kTank,
   kVision,
+  kPID,
 };
 
 class Drivebase {

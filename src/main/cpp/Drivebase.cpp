@@ -64,7 +64,7 @@ void Drivebase::OnUpdate(units::second_t dt) {
       // Vision Tracking State
       break;
     }
-    case DrivebaseState::kPID {
+    case DrivebaseState::kPID: {
       // PID Control State
       break;
     }
