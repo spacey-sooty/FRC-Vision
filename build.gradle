@@ -54,6 +54,13 @@ model {
                 targetPlatform wpi.platforms.desktop
             }
 
+            binaries.all {
+                cppCompiler.args "-Werror"
+                cppCompiler.args "-Wextra"
+                cppCompiler.args "-Wall"
+                cppCompiler.args "-pedantic"
+            }
+
             sources.cpp {
                 source {
                     srcDir 'src/main/cpp'
