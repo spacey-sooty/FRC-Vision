@@ -4,7 +4,9 @@ std::shared_ptr<frc::AprilTagFieldLayout> Get2023Layout() {
   return std::make_shared<frc::AprilTagFieldLayout>(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2023ChargedUp));
 };
 
-Vision::Vision(VisionConfig *config): _config(config) {}
+Vision::Vision(VisionConfig *config): _config(config) {
+  table = nt::NetworkTableInstance::GetDefault().GetTable("Vision");
+}
 
 Vision::~Vision() {}
 
@@ -40,10 +42,10 @@ void Vision::OnStart() {
 
 void Vision::OnUpdate(units::second_t dt) {
   frc::Pose3d pose = GetPose();
-  frc::SmartDashboard::PutNumber("X", pose.X().value());
-  frc::SmartDashboard::PutNumber("Y", pose.Y().value());
-  frc::SmartDashboard::PutNumber("Z", pose.Z().value());
-  frc::SmartDashboard::PutNumber("Roll", pose.Rotation().X().value());
-  frc::SmartDashboard::PutNumber("Pitch", pose.Rotation().Y().value());
-  frc::SmartDashboard::PutNumber("Yaw", pose.Rotation().Z().value());
+  table->PutNumber("X", pose.X().value());
+  table->PutNumber("Y", pose.Y().value());
+  table->PutNumber("Z", pose.Z().value());
+  table->PutNumber("Roll", pose.Rotation().X().value());
+  table->PutNumber("Pitch", pose.Rotation().Y().value());
+  table->PutNumber("Yaw", pose.Rotation().Z().value());
 }

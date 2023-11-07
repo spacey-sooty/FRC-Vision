@@ -2,12 +2,16 @@
 
 #include "Vision.h"
 
+#include <networktables/NetworkTableInstance.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/DoubleTopic.h>
 #include <frc/XboxController.h>
 #include <ctre/Phoenix.h>
 #include <units/time.h>
 
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 struct DrivebaseConfig {
   // controller
@@ -49,5 +53,6 @@ class Drivebase {
   Vision *_vision = NULL;
   const DrivebaseConfig *_config;
   DrivebaseState _state = kIdle;
+  std::shared_ptr<nt::NetworkTable> table;
 };
 

@@ -1,6 +1,8 @@
 #include "Drivebase.h"
 
-Drivebase::Drivebase(DrivebaseConfig *config): _config(config) {}
+Drivebase::Drivebase(DrivebaseConfig *config): _config(config) {
+  table = nt::NetworkTableInstance::GetDefault().GetTable("Drivebase");
+}
 
 Drivebase::Drivebase(DrivebaseConfig *config, Vision *vision): _vision(vision), _config(config) {}
 
@@ -35,6 +37,10 @@ void Drivebase::OnUpdate(units::second_t dt) {
     SetState(DrivebaseState::kVision);
   }
 
+  if (_config->driver.GetBButtonPressed()) {
+    SetState(DrivebaseState::kPID);
+  }
+
   switch(_state) {
     case DrivebaseState::kIdle: {
       // idle state so do nothing
@@ -44,6 +50,8 @@ void Drivebase::OnUpdate(units::second_t dt) {
       // tank drive state
       double leftSpeed = (std::fabs(_config->driver.GetLeftY()) > 0.02) ? _config->driver.GetLeftY() : 0;
       double rightSpeed = (std::fabs(_config->driver.GetRightY()) > 0.02) ? _config->driver.GetRightY() : 0;
+      table->PutNumber("Left Speed", leftSpeed);
+      table->PutNumber("Right Speed", rightSpeed);
       _config->Left1.Set(ControlMode::PercentOutput, leftSpeed);
       _config->Left2.Set(ControlMode::PercentOutput, leftSpeed);
       _config->Left3.Set(ControlMode::PercentOutput, leftSpeed);
@@ -54,6 +62,14 @@ void Drivebase::OnUpdate(units::second_t dt) {
     }
     case DrivebaseState::kVision: {
       // Vision Tracking State
+      break;
+    }
+    case DrivebaseState::kPID {
+      // PID Control State
+      break;
+    }
+    default: {
+      std::cout << "Invalid State" << std::endl;
       break;
     }
   }

@@ -11,10 +11,9 @@
 
 #include <units/time.h>
 
-#include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
-#include <networktables/NetworkTableEntry.h>
-#include <networktables/NetworkTableValue.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/DoubleTopic.h>
 
 #include <cmath>
 #include <memory>
@@ -52,4 +51,5 @@ class Vision {
   VisionConfig *_config;
   std::vector<std::pair<std::shared_ptr<photonlib::PhotonCamera>, frc::Transform3d>> cameras = { std::make_pair(_config->camera, _config->robotToCamera) };
   photonlib::RobotPoseEstimator _estimator = photonlib::RobotPoseEstimator{ Get2023Layout(), photonlib::CLOSEST_TO_REFERENCE_POSE, cameras };
+  std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("Vision");
 };
