@@ -2,17 +2,23 @@
 
 #include "Vision.h"
 
-#include <frc2/command/PIDCommand.h>
 #include <networktables/NetworkTableInstance.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/DoubleTopic.h>
+
 #include <frc/XboxController.h>
+#include <frc/DutyCycleEncoder.h>
+#include <frc2/command/PIDCommand.h>
 #include <ctre/Phoenix.h>
+
+#include <units/length.h>
 #include <units/time.h>
 
 #include <iostream>
 #include <cmath>
 #include <memory>
+
+#define PI = 3.141592553589;
 
 struct DrivebaseConfig {
   // controller
@@ -26,6 +32,17 @@ struct DrivebaseConfig {
   TalonSRX &Right2;
   TalonSRX &Right3;
 
+  // encoders
+  frc::DutyCycleEncoder &Left1Encoder;
+  frc::DutyCycleEncoder &Left2Encoder;
+  frc::DutyCycleEncoder &Left3Encoder;
+  frc::DutyCycleEncoder &Right1Encoder;
+  frc::DutyCycleEncoder &Right2Encoder;
+  frc::DutyCycleEncoder &Right3Encoder;
+
+  units::meter_t wheelWidth;
+
+  // pid controllers
   frc2::PIDController _velocityPID;
   frc2::PIDController _posePID;
 };
@@ -34,7 +51,8 @@ enum DrivebaseState {
   kIdle,
   kTank,
   kVision,
-  kPID,
+  kVelocityPID,
+  kPosePID,
 };
 
 class Drivebase {

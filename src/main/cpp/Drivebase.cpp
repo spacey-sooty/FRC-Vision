@@ -26,6 +26,12 @@ void Drivebase::SetState(DrivebaseState state) {
 
 void Drivebase::OnStart() {
   std::cout << "Starting Drivebase" << std::endl;
+  _config->Left1Encoder.Reset();
+  _config->Left2Encoder.Reset();
+  _config->Left3Encoder.Reset();
+  _config->Right1Encoder.Reset();
+  _config->Right2Encoder.Reset();
+  _config->Right3Encoder.Reset();
 }
 
 void Drivebase::OnUpdate(units::second_t dt) {
@@ -38,7 +44,11 @@ void Drivebase::OnUpdate(units::second_t dt) {
   }
 
   if (_config->driver.GetBButtonPressed()) {
-    SetState(DrivebaseState::kPID);
+    SetState(DrivebaseState::kPosePID);
+  }
+
+  if (_config->driver.GetAButtonPressed()) {
+    SetState(DrivebaseState::kVelocityPID);
   }
 
   switch(_state) {
@@ -62,10 +72,19 @@ void Drivebase::OnUpdate(units::second_t dt) {
     }
     case DrivebaseState::kVision: {
       // Vision Tracking State
+
+      // makes sure vision exists
+      if (_vision != NULL) {
+
+      }
       break;
     }
-    case DrivebaseState::kPID: {
-      // PID Control State
+    case DrivebaseState::kPosePID: {
+      // Pose PID Control State
+      break;
+    }
+    case DrivebaseState::kVelocityPID: {
+      // Velocity PID Control State
       break;
     }
     default: {
