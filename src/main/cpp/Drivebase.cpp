@@ -1,10 +1,11 @@
 #include "Drivebase.h"
 
-Drivebase::Drivebase(DrivebaseConfig *config): _config(config) {
+Drivebase::Drivebase(DrivebaseConfig *config) : _config(config) {
   table = nt::NetworkTableInstance::GetDefault().GetTable("Drivebase");
 }
 
-Drivebase::Drivebase(DrivebaseConfig *config, Vision *vision): _vision(vision), _config(config) {}
+Drivebase::Drivebase(DrivebaseConfig *config, Vision *vision)
+    : _vision(vision), _config(config) {}
 
 Drivebase::~Drivebase() {}
 
@@ -51,15 +52,19 @@ void Drivebase::OnUpdate(units::second_t dt) {
     SetState(DrivebaseState::kVelocityPID);
   }
 
-  switch(_state) {
+  switch (_state) {
     case DrivebaseState::kIdle: {
       // idle state so do nothing
       break;
     }
     case DrivebaseState::kTank: {
       // tank drive state
-      double leftSpeed = (std::fabs(_config->driver.GetLeftY()) > 0.02) ? _config->driver.GetLeftY() : 0;
-      double rightSpeed = (std::fabs(_config->driver.GetRightY()) > 0.02) ? _config->driver.GetRightY() : 0;
+      double leftSpeed  = (std::fabs(_config->driver.GetLeftY()) > 0.02)
+                              ? _config->driver.GetLeftY()
+                              : 0;
+      double rightSpeed = (std::fabs(_config->driver.GetRightY()) > 0.02)
+                              ? _config->driver.GetRightY()
+                              : 0;
       table->PutNumber("Left Speed", leftSpeed);
       table->PutNumber("Right Speed", rightSpeed);
       _config->Left1.Set(ControlMode::PercentOutput, leftSpeed);
@@ -75,7 +80,6 @@ void Drivebase::OnUpdate(units::second_t dt) {
 
       // makes sure vision exists
       if (_vision != NULL) {
-
       }
       break;
     }
@@ -93,4 +97,3 @@ void Drivebase::OnUpdate(units::second_t dt) {
     }
   }
 }
-

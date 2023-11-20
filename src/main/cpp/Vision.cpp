@@ -1,10 +1,11 @@
 #include "Vision.h"
 
 std::shared_ptr<frc::AprilTagFieldLayout> Get2023Layout() {
-  return std::make_shared<frc::AprilTagFieldLayout>(frc::LoadAprilTagLayoutField(frc::AprilTagField::k2023ChargedUp));
+  return std::make_shared<frc::AprilTagFieldLayout>(
+      frc::LoadAprilTagLayoutField(frc::AprilTagField::k2023ChargedUp));
 };
 
-Vision::Vision(VisionConfig *config): _config(config) {
+Vision::Vision(VisionConfig *config) : _config(config) {
   table = nt::NetworkTableInstance::GetDefault().GetTable("Vision");
 }
 
@@ -31,13 +32,16 @@ frc::Pose3d Vision::GetPose() {
 }
 
 frc::Transform3d Vision::GetPath(photonlib::PhotonTrackedTarget target) {
-	frc::Transform3d path = target.GetBestCameraToTarget();
-	frc::Transform3d offset = _config->robotToCamera;
-	return frc::Transform3d{frc::Translation3d{(path.X() - offset.X()), (path.Y() - offset.Y()), (path.Z() - offset.Z())}, path.Rotation()};
+  frc::Transform3d path   = target.GetBestCameraToTarget();
+  frc::Transform3d offset = _config->robotToCamera;
+  return frc::Transform3d{
+      frc::Translation3d{(path.X() - offset.X()), (path.Y() - offset.Y()),
+                         (path.Z() - offset.Z())},
+      path.Rotation()};
 }
 
 void Vision::OnStart() {
-	std::cout << "Starting Vision" << std::endl;
+  std::cout << "Starting Vision" << std::endl;
 }
 
 void Vision::OnUpdate(units::second_t dt) {

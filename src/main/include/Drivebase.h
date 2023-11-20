@@ -1,22 +1,20 @@
 #pragma once
 
-#include "Vision.h"
-
-#include <networktables/NetworkTableInstance.h>
-#include <networktables/NetworkTable.h>
-#include <networktables/DoubleTopic.h>
-
-#include <frc/XboxController.h>
-#include <frc/DutyCycleEncoder.h>
-#include <frc2/command/PIDCommand.h>
 #include <ctre/Phoenix.h>
-
+#include <frc/DutyCycleEncoder.h>
+#include <frc/XboxController.h>
+#include <frc2/command/PIDCommand.h>
+#include <networktables/DoubleTopic.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 #include <units/length.h>
 #include <units/time.h>
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <memory>
+
+#include "Vision.h"
 
 #define PI = 3.141592553589;
 
@@ -57,25 +55,23 @@ enum DrivebaseState {
 
 class Drivebase {
  public:
-   Drivebase(DrivebaseConfig *config);
-   Drivebase(DrivebaseConfig *config, Vision *vision);
-   ~Drivebase();
+  Drivebase(DrivebaseConfig *config);
+  Drivebase(DrivebaseConfig *config, Vision *vision);
+  ~Drivebase();
 
-   const DrivebaseConfig *GetConfig();
-   DrivebaseState GetState();
-   Vision *GetVision();
+  const DrivebaseConfig *GetConfig();
+  DrivebaseState         GetState();
+  Vision                *GetVision();
 
-   void SetState(DrivebaseState state);
+  void SetState(DrivebaseState state);
 
-   void OnStart();
-   void OnUpdate(units::second_t dt);
+  void OnStart();
+  void OnUpdate(units::second_t dt);
 
  protected:
-
  private:
-  Vision *_vision = NULL;
-  const DrivebaseConfig *_config;
-  DrivebaseState _state = kIdle;
+  Vision                           *_vision = NULL;
+  const DrivebaseConfig            *_config;
+  DrivebaseState                    _state = kIdle;
   std::shared_ptr<nt::NetworkTable> table;
 };
-

@@ -20,8 +20,5 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  protected:
-
  private:
-
 };
-
